@@ -17,6 +17,7 @@
   libevdev,
   makeDesktopItem,
   fetchurl,
+  wine64,
 }: let
   version = "2023.3.0";
 
@@ -44,15 +45,18 @@ in
       ./0001-fix-wine-no-wrapper.patch
     ];
 
-    nativeBuildInputs = [cmake pkg-config ninja copyDesktopItems];
+    nativeBuildInputs = [cmake pkg-config ninja copyDesktopItems wine64];
     buildInputs = [qtbase qttools opencv4 procps eigen libXdmcp libevdev aruco];
 
     env.NIX_CFLAGS_COMPILE = "-Wall -Wextra -Wpedantic -ffast-math -O3";
     dontWrapQtApps = true;
 
     cmakeFlags = [
+      "-GNinja"
+      "-DCMAKE_BUILD_TYPE=Release"
       "-DSDK_ARUCO_LIBPATH=${aruco}/lib/libaruco.a"
       "-DSDK_XPLANE=${xplaneSdk}"
+      "-DSDK_WINE=ON"
     ];
 
     postInstall = ''
