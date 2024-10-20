@@ -87,6 +87,7 @@ in
       mainProgram = "opentrack";
       changelog = "https://github.com/opentrack/opentrack/releases/tag/${version}";
       license = licenses.isc;
+      platforms = platforms.x86_64;
       maintainers = with maintainers; [zaninime];
     };
   }
